@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: Sample Widget API
+  version: '1.0'
+  description: |
+    Synthetic OpenAPI fixture used by the parser test suite. Two endpoints
+    on /widgets — one GET with filtering parameters, one POST for creation.
+    A second path /widgets/{id} has a deprecated DELETE flag to exercise
+    the parser's deprecated-endpoint handling.
+paths:
+  /widgets:
+    get:
+      operationId: listWidgets
+      summary: List widgets
+      description: Returns widgets filtered by status and owner.
+      tags: [widgets]
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter by widget status.
+          schema:
+            type: string
+            enum: [active, archived]
+        - name: ownerId
+          in: query
+          required: true
+          description: Owner whose widgets to return.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of widgets
+        '401':
+          description: Unauthorized
+    post:
+      operationId: createWidget
+      summary: Create a widget
+      description: Creates a new widget for the authenticated owner.
+      tags: [widgets]
+      responses:
+        '201':
+          description: Widget created
+        '400':
+          description: Invalid input
+  /widgets/{id}:
+    get:
+      operationId: getWidget
+      summary: Get a widget by id
+      tags: [widgets]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Widget detail
+        '404':
+          description: Not found
+    delete:
+      operationId: deleteWidget
+      summary: Delete a widget (deprecated)
+      deprecated: true
+      tags: [widgets]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted

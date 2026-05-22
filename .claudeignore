@@ -1,0 +1,62 @@
+# Files Claude Code should NOT read by default
+# Reduces noise and saves context tokens
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Generated types (Claude can read if specifically asked, but don't auto-load)
+# NOTE: Leave src/types/supabase.ts out of this — Claude often needs it
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files (NEVER let Claude see secrets)
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Ingested artifact data (can be huge; load on demand only)
+.artifact-cache/
+uploads/
+
+# LlamaParse local cache
+.llamaparse/
+
+# Test fixtures are OK to include — needed for test understanding
+# EXCEPT for large binary files
+src/test/fixtures/large/
+
+# Vercel
+.vercel/
+
+# Lock files (Claude rarely needs to read these)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
